@@ -1,1 +1,0 @@
-WordPress DB Backup Location
