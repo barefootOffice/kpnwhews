@@ -1,0 +1,341 @@
+<?php
+// Wordpress: Disable all Theme Update Notifications
+//remove_action ('load-update-core.php', 'wp_update_themes');
+//add_filter ('pre_site_transient_update_themes',create_function ('$a', "return null;"));
+add_filter( 'auto_update_theme', '__return_false' );
+
+// WordPress: Disable WordPress Gutenberg Editor (v5.0+)
+add_filter('use_block_editor_for_post', '__return_false', 10);
+add_filter('gutenberg_can_edit_post', '__return_false', 10);
+
+// Wordpress: Adds Featured Image functionality to pages/posts
+add_theme_support('post-thumbnails');
+
+// Wordpress: This theme uses wp_nav_menu() in one location.
+add_theme_support('menus');
+
+// Wordpress: Disable WordPress Admin Bar for all users
+show_admin_bar(false);
+
+// WordPress: Disable Plugin Update Notifications
+add_filter('site_transient_update_plugins','filter_plugin_updates');
+function filter_plugin_updates($value) {
+    unset( $value->response['js_composer/js_composer.php'] );
+    return $value;
+}
+
+// WordPress: Moves jQuery calls to the footer
+add_action('wp_default_scripts','move_jquery_into_footer');
+function move_jquery_into_footer($wp_scripts){
+    if (is_admin()){return;}
+    $wp_scripts->add_data('jquery','group',1);
+    $wp_scripts->add_data('jquery-core','group',1);
+    $wp_scripts->add_data('jquery-migrate','group',1);
+}
+
+// WordPress: Strips information out of head
+add_action('init','clean_wp_head');
+function clean_wp_head(){
+	remove_action('wp_head','wp_generator');
+	remove_action('wp_head','rsd_link');
+	remove_action('wp_head','feed_links', 2);
+	remove_action('wp_head','feed_links_extra', 3);
+	remove_action('wp_head','index_rel_link');
+	remove_action('wp_head','wlwmanifest_link');
+	remove_action('wp_head','start_post_rel_link', 10, 0);
+	remove_action('wp_head','parent_post_rel_link', 10, 0);
+	remove_action('wp_head','adjacent_posts_rel_link', 10, 0);
+	remove_action('wp_head','adjacent_posts_rel_link_wp_head', 10, 0);
+	remove_action('wp_head','wp_shortlink_wp_head', 10, 0);
+}
+
+// WordPress: Remove JSON API links in header
+add_action('after_setup_theme','remove_json_api');
+function remove_json_api(){
+	remove_action('wp_head','rest_output_link_wp_head', 10);
+	remove_action('wp_head','wp_oembed_add_discovery_links', 10);
+	remove_action('rest_api_init','wp_oembed_register_route');
+	add_filter('embed_oembed_discover','__return_false');
+	remove_filter('oembed_dataparse','wp_filter_oembed_result', 10);
+	remove_action('wp_head','wp_oembed_add_discovery_links');
+	remove_action('wp_head','wp_oembed_add_host_js');
+	//add_filter( 'rewrite_rules_array','disable_embeds_rewrites');
+}
+
+// WordPress: Disable the REST API
+add_action('after_setup_theme','disable_json_api');
+function disable_json_api(){
+  // Filters for WP-API version 1.x
+  add_filter('json_enabled','__return_false');
+  add_filter('json_jsonp_enabled','__return_false');
+  // Filters for WP-API version 2.x
+  add_filter('rest_enabled','__return_false');
+  add_filter('rest_jsonp_enabled','__return_false');
+}
+
+// WordPress: Removes the default Post types from the admin section
+add_action('admin_menu','remove_menus');
+function remove_menus(){
+	// Removes for Everyone
+	remove_menu_page('edit.php');                   //Posts
+	remove_menu_page('edit-comments.php');          //Comments
+
+	// Removes for non-Admin Users
+	if(!current_user_can('update_core')) {
+		remove_menu_page('tools.php');					//Tools
+	}
+}
+
+// WordPress: Makes sure there is a session set
+//add_action('init', 'WPSession', 1);
+function WPSession() {
+	if(!session_id()) {
+		session_start();
+	}
+}
+
+// WordPress: Add slug name to body class
+add_filter('body_class','add_body_class');
+function add_body_class($classes){
+	global $post;
+	if (isset($post)){
+		$classes[] = $post->post_type.'-'.$post->post_name;
+	}
+	return $classes;
+}
+
+// WordPress: Sets the number of pages to show in Admin View
+add_filter('get_user_metadata','pages_per_page_wpse_23503', 10, 4);
+function pages_per_page_wpse_23503($check, $object_id, $meta_key, $single){
+	if('edit_page_per_page' == $meta_key){
+		return 50;
+	} else {
+		return $check;
+	}
+}
+
+// WordPress: Prevents Thumbnail Generation of uploaded images
+add_filter('intermediate_image_sizes_advanced','add_image_insert_override');
+function add_image_insert_override($sizes){
+	//unset($sizes['thumbnail']);
+	unset($sizes['medium']);
+	unset($sizes['medium_large']);
+	unset($sizes['large']);
+	return $sizes;
+}
+
+// WordPress: Forces lowercase on all files uploaded to the Media Library
+add_filter('sanitize_file_name', 'media_library_filename_lowercase', 10);
+function media_library_filename_lowercase($filename){
+	$info = pathinfo($filename);
+	$ext  = empty($info['extension']) ? '' : '.' . $info['extension'];
+	$name = basename($filename, $ext);
+	return strtolower($name) . $ext;
+}
+
+// WordPress: Disable WP Emojicons
+add_action('init','disable_wp_emojicons');
+function disable_wp_emojicons(){
+  // all actions related to emojis
+  remove_action( 'admin_print_styles', 'print_emoji_styles' );
+  remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+  remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
+  remove_action( 'wp_print_styles', 'print_emoji_styles' );
+  remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
+  remove_filter( 'the_content_feed', 'wp_staticize_emoji' );
+  remove_filter( 'comment_text_rss', 'wp_staticize_emoji' );
+
+  // filter to remove TinyMCE emojis
+  add_filter( 'tiny_mce_plugins', 'disable_emojicons_tinymce' );
+
+	function disable_emojicons_tinymce($plugins){
+		if (is_array($plugins)) {
+			return array_diff($plugins, array('wpemoji'));
+		} else {
+			return array();
+		}
+	}
+}
+
+// WordPress: Adds Excerpt to Pages
+//add_action('init','my_add_excerpts_to_pages');
+function my_add_excerpts_to_pages(){
+	add_post_type_support('page','excerpt');
+}
+
+// Visual Composer: Adds Hero Text Block element
+add_shortcode('vc_hero_text', 'vc_hero_text_shortcode');
+function vc_hero_text_shortcode($atts, $content=null){
+	if($content != null){$text_area = $content;}
+
+	$custom_html = '<div class="wpb_hero_column">';
+	$custom_html .= '<h1>'.$atts['title'].'</h1>';
+	$custom_html .= '<p>'.$text_area.'</p>';
+	$custom_html .= '</div>';
+	return $custom_html;
+}
+
+add_action('vc_before_init', 'vc_hero_text');
+function vc_hero_text(){
+	vc_map(array(
+	   "name" => "Hero Text Content",
+	   "description" => "Primary text block for the top page hero",
+	   "base" => "vc_hero_text",
+	   "category" => array('Content','KPHEWS Template'),
+	   "weight" => 4,
+	   "icon" => "icon-wpb-layer-shape-text",
+	   "params" => array(
+	      array(
+	         "type" => "textfield",
+	         "holder" => "div",
+	         "heading" => "Main Title",
+	         "param_name" => "title",
+	         "description" => "This is the primary title for the hero block"
+	      ),
+	      array(
+	         "type" => "textarea_html",
+	         "holder" => "div",
+	         "heading" => "Intro Text",
+	         "param_name" => "content"
+	      )
+	   )
+	));
+}
+
+// Visual Composer: Text Block with Heading element
+add_shortcode('vc_heading_text', 'vc_heading_text_shortcode');
+function vc_heading_text_shortcode($atts, $content=null){
+	if($content != null){$text_area = $content;}
+
+	$custom_html = '<div class="wpb_text_column">';
+	$custom_html .= '<h2>'.$atts['title'].'</h2>';
+	$custom_html .= '<p>'.$text_area.'</p>';
+	$custom_html .= '</div>';
+	return $custom_html;
+}
+
+add_action('vc_before_init', 'vc_heading_text');
+function vc_heading_text(){
+	vc_map(array(
+	   "name" => "Text Block (with Heading)",
+	   "description" => "Text block with underlined heading",
+	   "base" => "vc_heading_text",
+	   "category" => array('Content','KPHEWS Template'),
+	   "weight" => 4,
+	   "icon" => "icon-wpb-layer-shape-text",
+	   "params" => array(
+	      array(
+	         "type" => "textfield",
+	         "holder" => "div",
+	         "heading" => "Block Heading",
+	         "param_name" => "title",
+	         "description" => "This element will be underlined in the design"
+	      ),
+	      array(
+	         "type" => "textarea_html",
+	         "holder" => "div",
+	         "heading" => "Block Text",
+	         "param_name" => "content"
+	      )
+	   )
+	));
+}
+
+// Visual Composer: Updates default elements for the KPHEWS Tab
+add_action('vc_before_init', 'VC_Update_Elements');
+function VC_Update_Elements(){
+
+	$settings = array(
+	  "category" => array('Content','KPHEWS Template'),
+	  "weight" => 1,
+	);
+
+	$settings['weight'] = 5;
+	vc_map_update( 'vc_row', $settings);
+
+	$settings['weight'] = 2;
+	vc_map_update( 'vc_single_image', $settings);
+
+	$settings['weight'] = 1;
+	vc_map_update( 'vc_video', $settings);
+
+	$settings['weight'] = 3;
+	$settings['name'] = "Text Block (No Heading)";
+	$settings['description'] = "Text block with no heading shown";
+	vc_map_update( 'vc_column_text', $settings);
+
+}
+
+// WordPress: Classes Custom Post Type
+add_action( 'init', 'cpt_register_classes' );
+function cpt_register_classes() {
+	$labels = array(
+		"name" => "Classes",
+		"singular_name" => "Class",
+		"menu_name" => "Classes",
+		"add_new" => "Add New Class Category",
+		);
+
+	$args = array(
+		"labels" => $labels,
+		"description" => "",
+		"public" => true,
+		"show_ui" => true,
+		"show_in_rest" => false,
+		"has_archive" => false,
+		"show_in_menu" => true,
+		"exclude_from_search" => true,
+		"capability_type" => "post",
+		"map_meta_cap" => true,
+		"hierarchical" => false,
+		"rewrite" => false,
+		"query_var" => true,
+		"menu_icon" => "dashicons-calendar-alt",
+		"supports" => array( "title" )
+	);
+	register_post_type("classes", $args);
+}
+
+
+// WordPress: Classes Columns
+add_filter('manage_edit-classes_columns', 'my_classes_columns');
+function my_classes_columns(){
+	$columns['cb'] = '';
+	$columns['title'] = 'Class Category';
+	//$columns['category'] = 'Category';
+	//$columns['page'] = 'Page Number';
+	//$columns['community'] = 'Community Partner';
+	$columns['date'] = 'Date';
+	return $columns;
+}
+//add_action('manage_classes_posts_custom_column', 'my_classes_column_content', 10, 2);
+function my_classes_column_content($column_name, $post_id){
+    if ($column_name == 'category'){
+    	echo get_field('class_category', $post_id);
+    } else if ($column_name == 'page'){
+    	echo get_field('class_page_number', $post_id);
+    } else if ($column_name == 'community'){
+    	echo get_field('class_community_partner', $post_id);
+    }
+
+}
+//add_filter('manage_edit-classes_sortable_columns', 'my_classes_sortable_columns');
+function my_classes_sortable_columns($columns) {
+    $columns['category'] = 'class_category';
+    $columns['page'] = 'class_page_number';
+    $columns['community'] = 'class_community_partner';
+    return $columns;
+}
+//add_action('admin_head', 'my_admin_custom_styles');
+function my_admin_custom_styles() {
+    $output_css = '<style type="text/css">
+        .column-title {}
+        .column-category {width:200px;}
+        .column-page {width:200px;}
+        .column-community {width:200px;}
+        .column-date {}
+    </style>';
+    echo $output_css;
+}
+
+?>
