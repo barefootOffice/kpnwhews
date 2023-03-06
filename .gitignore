@@ -1,0 +1,42 @@
+# Ignore OS Files
+*~
+.DS_Store
+ehthumbs.db
+Thumbs.db
+.vscode/*
+
+# Ignore SASS Cache
+.sass-cache
+
+# Ignore GRUNT
+/+grunt/.*
+/+grunt/package-lock.json
+/+grunt/node_modules/*
+!/+grunt/node_modules/readme.md
+
+# Ignore GULP
+/+gulp/.*
+/+gulp/package-lock.json
+/+gulp/node_modules/*
+!/+gulp/node_modules/readme.md
+
+# Ignore WEBPACK
+/+webpack/.*
+/+webpack/package-lock.json
+/+webpack/node_modules/*
+!/+webpack/node_modules/readme.md
+
+# Ignore WORDPRESS
+/wordpress/wp-content/cache
+/wordpress/wp-content/upgrade
+/wordpress/wp-content/wflogs
+/wordpress/wp-content/debug.log
+/wordpress/wp-content/uploads/wp-migrate-db
+/wordpress/wp-content/uploads/wpo-plugins-tables-list.json
+/wordpress/wp-config-local.php
+/wordpress/wp-config-sample.php
+
+# Whitelist
+!.gitignore
+!.gitattributes
+!.htaccess

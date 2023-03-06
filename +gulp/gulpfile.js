@@ -1,20 +1,20 @@
-var gulp = require('gulp');
-var sass = require('gulp-sass');
-var autoprefixer = require('gulp-autoprefixer');
-var cleanCSS = require('gulp-clean-css');
-var sourcemaps = require('gulp-sourcemaps');
-var rename = require('gulp-rename');
-var notify = require('gulp-notify');
-var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
-var eslint = require('gulp-eslint');
+const gulp = require('gulp');
+const sass = require('gulp-sass')(require('sass'));
+const autoprefixer = require('gulp-autoprefixer');
+const cleanCSS = require('gulp-clean-css');
+const sourcemaps = require('gulp-sourcemaps');
+const rename = require('gulp-rename');
+const notify = require('gulp-notify');
+const concat = require('gulp-concat');
+//const uglify = require('gulp-uglify');
+const uglify = require('gulp-uglify-es').default;
+const eslint = require('gulp-eslint');
 
 // Path to theme folder
-var siteRoot = '../webroot/wp-content/themes/KPHEW-v2';
+var themeFolder = '../webroot/wp-content/themes/kphews-v2.0';
 
 // Path to main.scss
-var styleSRC = siteRoot+'/sass/main.scss';
-var styleDST = siteRoot;
+var styleSRC = themeFolder+'/sass/main.scss';
 
 // Compile & Minify SASS
 gulp.task('sass', function(){
@@ -22,23 +22,21 @@ gulp.task('sass', function(){
 		.pipe(sourcemaps.init())
 		.pipe(sass({
 			errLogToConsole: true,
-			outputStyle: 'compact',
+			outputStyle: 'compressed',
 			precision: 10
 		}).on('error', notify.onError({title:'Sass Error',sound:'submarine'})))
 		//.pipe(sourcemaps.write({includeContent:false}))
 		//.pipe(sourcemaps.init({loadMaps:true}))
 		.pipe(autoprefixer({cascade:false, remove:true}))
-		.pipe(rename({
-			basename: 'style'
-		}))
+		.pipe(rename('style.css'))
 		.pipe(cleanCSS({format:'keep-breaks'}))
 		.pipe(sourcemaps.write('/'))
-		.pipe(gulp.dest(styleDST));
+		.pipe(gulp.dest(themeFolder));
 });
 
 // Path to main.js
-var jsSRC = siteRoot+'/js/main.js';
-var jsDST = siteRoot+'/js';
+var jsSRC = themeFolder+'/js/functions.js';
+var jsDST = themeFolder+'/js';
 
 // Minify JS
 gulp.task('customJS', function(){
@@ -46,7 +44,7 @@ gulp.task('customJS', function(){
 		.pipe(sourcemaps.init())
 		.pipe(uglify().on('error', notify.onError({title:'JS Error',sound:'submarine'})))
 		.pipe(rename({
-			basename: 'main',
+			basename: 'functions',
 			suffix: '.min'
 		}))
 		.pipe(sourcemaps.write('/'))
@@ -55,25 +53,30 @@ gulp.task('customJS', function(){
 
 // ESLint
 gulp.task('jslint', function(){
-  return gulp.src(jsSRC)
-  .pipe(eslint({
-	'rules':{
-		//'quotes': ['warn', 'single'],
-		'no-console': ['warn', {allow: ['warn','error']}],
-		'semi': ['warn', 'always']
-	},
-	'extends': 'eslint:recommended'
-	}))
-  .pipe(eslint.format())
-  .pipe(eslint.failOnError());
-});
-
-
+	return gulp.src(jsSRC)
+	.pipe(eslint({
+	 'env':{
+		 'es6': true,
+		 'browser': true
+	 },
+	 'parserOptions':{
+		 'ecmaVersion': 2015
+	 },
+	 'extends': 'eslint:recommended',
+	 'rules':{
+		 //'quotes': ['warn', 'single'],
+		 'no-console': ['warn', {allow: ['warn','error']}],
+		 'semi': ['warn', 'always']
+	 }
+	 }))
+	.pipe(eslint.format())
+	.pipe(eslint.failOnError());
+ });
 
 // Watcher
 gulp.task('watch', function(){
-	gulp.watch(siteRoot+'/sass/**/*.scss', gulp.series(['sass']));
-	gulp.watch(siteRoot+'/js/main.js', gulp.series(['customJS']));
+	gulp.watch(themeFolder+'/sass/**/*.scss', gulp.series(['sass']));
+	gulp.watch(themeFolder+'/js/functions.js', gulp.series(['customJS']));
 });
 
 // Build

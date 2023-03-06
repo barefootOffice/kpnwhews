@@ -1,0 +1,13 @@
+# Prevents ZIP Export
+.gitattributes export-ignore
+.gitignore export-ignore
+/readme.md export-ignore
+/README.md export-ignore
+/webroot export-ignore
+/+deploy export-ignore
+
+# Hides from Github statistics
+/+deploy/* linguist-vendored
+/+grunt/* linguist-vendored
+/+gulp/* linguist-vendored
+/+webpack/* linguist-vendored
