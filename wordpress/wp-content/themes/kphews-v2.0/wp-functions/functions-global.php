@@ -106,7 +106,7 @@ function add_body_class($classes){
 }
 
 // WordPress: Prevents Thumbnail Generation of uploaded images
-add_filter('intermediate_image_sizes_advanced','add_image_insert_override');
+//add_filter('intermediate_image_sizes_advanced','add_image_insert_override');
 function add_image_insert_override($sizes){
 	//unset($sizes['thumbnail']);
 	unset($sizes['medium']);
@@ -117,17 +117,24 @@ function add_image_insert_override($sizes){
 	return $sizes;
 }
 
+// WordPress: Prevents Thumbnail Generation of uploaded PDFs
+//add_filter('fallback_intermediate_image_sizes','wpb_disable_pdf_previews');
+function wpb_disable_pdf_previews(){
+	$fallbacksizes = array();
+	return $fallbacksizes;
+}
+
 // WordPress: Forces lowercase on all files uploaded to the Media Library
 add_filter('sanitize_file_name', 'media_library_filename_lowercase', 10);
 function media_library_filename_lowercase($filename){
 	$info = pathinfo($filename);
 	$ext  = empty($info['extension']) ? '' : '.' . $info['extension'];
 	$name = basename($filename, $ext);
-	return strtolower($name) . $ext;
+	return strtolower($name . $ext);
 }
 
 // WordPress: Restricts upload file type
-add_filter('upload_mimes', 'media_library_restrict_mime');
+//add_filter('upload_mimes', 'media_library_restrict_mime');
 function media_library_restrict_mime($mime_types){
 	$mime_types = array(
 		'jpg|jpeg' => 'image/jpeg',

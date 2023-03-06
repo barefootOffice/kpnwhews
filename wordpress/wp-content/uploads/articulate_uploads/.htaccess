@@ -1,0 +1,7 @@
+#allow articulate uploads
+<Files ~ "...">
+Require all granted
+</Files>
+<Files *.php>
+Require all denied
+</Files>

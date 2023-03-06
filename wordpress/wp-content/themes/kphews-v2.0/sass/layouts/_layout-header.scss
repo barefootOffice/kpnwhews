@@ -1,0 +1,66 @@
+/* Header */
+header {position:relative; top:0px; left:0px; right:0px; background-color:#ffffff; -webkit-box-shadow:0px 2px 2px rgba(175, 175, 175, .5); -moz-box-shadow:0px 2px 2px rgba(175, 175, 175, .5); box-shadow:0px 2px 2px rgba(175, 175, 175, .5); z-index:2;}
+html.ie8 header {border-bottom:1px solid #afafaf;}
+header .container a.logo {position:absolute; display:block;}
+header .container a.logo img {width:100%;}
+header .container a.globe {position:absolute; text-decoration:none; color:#595959;}
+header .container a.globe:before {content:""; position:absolute; left:-18px; top:-2px; display:block; height:16px; width:16px; background-image:url('images/icon-globe16-gray.png');}
+
+header .container a.schedule {position:absolute; display:block; background-color:#FF9E16; color:#ffffff; font-size:14px; line-height:14px; padding:8px 10px; text-decoration:none; -webkit-border-radius:5px; -moz-border-radius:5px; border-radius:5px;}
+
+
+@media (min-width:1024px){
+	header #menu-button {display:none;}
+	header .container {height:100px; overflow:visible;}
+	header .container a.logo {top:35px; width:265px;}
+	header .container .search-field {top:10px; right:0px; width:240px;}
+	header .container .search-field .show {display:none;}
+	header .container a.globe {right:0px; top:18px; line-height:12px; font-size:12px;}
+	header .container a.schedule {top:10px; right:0;}
+
+	/* Desktop Navigation */
+	header nav.desktop {position:absolute; bottom:0px; right:0px;}
+	header nav.desktop li {position:relative; float:left; display:block; height:50px; margin-left:30px; background-color:#ffffff;}
+	header nav.desktop li:first-of-type {margin-left:0px;}
+	header nav.desktop li a {display:block; height:50px; line-height:14px; font-size:14px; text-decoration:none; color:#595959; padding-top:15px;}
+	header nav.desktop li a.active,
+	header nav.desktop li a:hover {text-decoration:underline; color:#006ba6;}
+	header nav.desktop li.sub > ul {display:none; position:absolute; background-color:#f4f4f4; z-index:0;}
+	header nav.desktop li.sub > ul {left:-15px; top:50px; height:200px; width:550px;}
+	header nav.desktop li.sub > ul li {height:auto; padding:0px; margin:0px; background-color:transparent;}
+	header nav.desktop li.sub > ul li a {height:40px; line-height:40px; color:#595959;}
+	header nav.desktop li.sub > ul li:nth-of-type(odd){width:220px;}
+	header nav.desktop li.sub > ul li:nth-of-type(odd) a {padding:0 0 0 20px;}
+	header nav.desktop li.sub > ul li:nth-of-type(even){width:330px;}
+	header nav.desktop li.sub > ul li:nth-of-type(even) a {padding:0 20px 0 0;}
+}
+@media (max-width:1023px){
+	header nav.desktop,
+	header #search {display:none;}
+	header #menu-button {position:absolute; top:20px; left:0px; font-size:0px; display:block; height:24px; width:24px; -webkit-transition:all 300ms ease;	-moz-transition:all 300ms ease; -ms-transition:all 300ms ease;	transition:all 300ms ease;	cursor:pointer;}
+	header #menu-button:before {content:"\f0c9"; font-family:'FontAwesome'; position:absolute; top:50%; color:#0078a9; font-size:24px;}
+	body.show-nav header #menu-button {-webkit-transform:rotate(90deg); -moz-transform:rotate(90deg); -ms-transform:rotate(90deg); transform:rotate(90deg);}
+	header .container {height:70px;}
+	header .container a.logo {top:15px; left:60px; width:230px;}
+	header .container a.globe {display:none;}
+	header .container a.schedule {display:none;}
+
+	/* Side Menu */
+	nav.mobile {}
+	nav.mobile .title {position:absolute; top:20px; left:20px; font-size:14px; line-height:18px; color:#0078a9;}
+	nav.mobile .search-field {top:80px; left:20px; width:220px;}
+	nav.mobile .search-field .show {width:220px;}
+
+	nav.mobile ul.menu {position:absolute; top:130px; left:0px; right:0px; border-top:1px solid #b7b7b7;}
+	nav.mobile ul.menu li a {display:block; font-size:14px; height:46px; line-height:14px; padding:16px 20px 0; text-decoration:none; color:#585858; border-bottom:1px solid #b7b7b7;}
+	nav.mobile ul.menu li.sub {position:relative; background-color:#cbcbcb;}
+	nav.mobile ul.menu li.sub:after {content:"\f107"; font-family:'FontAwesome'; position:absolute; font-size:20px; top:12px; right:10px;}
+	nav.mobile ul.menu li.sub.open:after {content:"\f106";}
+	nav.mobile ul.menu li.sub ul {background-color:#f1eff0; display:none;}
+	nav.mobile ul.menu li.sub ul li a {padding-left:40px; font-size:12px;}
+	nav.mobile ul.menu li.sub ul li.double a {padding-top:10px;}
+}
+@media (max-width:767px){
+	header #menu-button {left:20px;}
+	header .container a.logo {left:75px;}
+}

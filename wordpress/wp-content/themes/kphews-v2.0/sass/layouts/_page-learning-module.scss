@@ -1,0 +1,18 @@
+// Page: Learning Module
+.page-learning-module {
+
+	main .container {width:100%!important; padding:40px 0;
+		iframe {width:100%; height:640px;}
+		.mobile {display:none;}
+	}
+
+	@media (max-width:1000px) {
+		main .container {
+			iframe {display:none!important;}
+			.mobile {display:block; padding:100px 20px;
+				h2 {text-align:center; font-size:14px; line-height:20px; font-weight:bold;}
+			}
+		}
+	}
+
+}

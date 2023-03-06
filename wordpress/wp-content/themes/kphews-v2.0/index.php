@@ -1,13 +1,12 @@
-<?php get_header(); ?>
+<?php get_template_part('block','header'); ?>
 <?php the_post(); ?>
 
-<body id="general" <?php body_class(); ?>>
-<?php get_header('navigation'); ?>
+	<main>
+		<section id="content">
+			<div class="container">
+				<?php the_content(); ?>
+			</div>
+		</section>
+	</main>
 
-		<main>		
-			<?php the_content(); ?>
-		</main>
-		
-<?php get_footer(); ?>
-</body>
-</html>
+<?php get_template_part('block','footer'); ?>

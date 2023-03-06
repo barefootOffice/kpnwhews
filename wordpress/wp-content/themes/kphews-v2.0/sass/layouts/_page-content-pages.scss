@@ -1,0 +1,86 @@
+// Global: General Content Template
+.page-template-page-content {
+	&.page-classes #hero {background-color:$color-purple;}
+	&.page-about #hero {background-color:$color-blue;}
+	&.page-health-coaching #hero {background-color:$color-orange;}
+
+	#lower {background-color:#e6e6e6;
+		p {text-align:center; color:#595959; font-style:italic;}
+	}
+	#carousel {display:none;}
+
+	@include breakpoint('>=bp_768'){
+		#content .container {padding:40px 20px;}
+		#lower {
+			& {padding:20px 0;}
+			p {font-size:14px; line-height:22px;}
+		}
+	}
+	@include breakpoint('<=bp_480'){
+		#content .container {padding:30px 15px;}
+		#lower {
+			& {padding:20px;}
+			p {font-size:12px; line-height:18px;}
+		}
+	}
+}
+
+//Page: About
+.page-about {
+
+	#carousel {display:block;
+		h2 {text-transform:uppercase; text-align:center;}
+		.quote {color:#595959; text-align:center;
+			p {font-size:14px; line-height:22px;}
+		}
+		.person {color:#006ba6; text-align:center; font-style:italic;}
+		.slick-slider div.slick-arrow {background:transparent; border:none; outline:none; padding:0px; margin:0px; font-size:0px; line-height:0px; cursor:pointer; z-index:5;}
+		.slick-slider div.slick-arrow:before {font-family:'FontAwesome'; display:block; color:#006ba6!important;}
+		.slick-slider div.slick-arrow:hover {opacity:0.8;}
+		.slick-slider div.slick-arrow.slick-prev {position:absolute; top:10px; left:0px;}
+		.slick-slider div.slick-arrow.slick-next {position:absolute; top:10px; right:0px;}
+		.slick-slider div.slick-arrow.slick-prev:before {content:"\f104";}
+		.slick-slider div.slick-arrow.slick-next:before {content:"\f105";}
+		.slick-slider div.slick-arrow.slick-prev:before,
+		.slick-slider div.slick-arrow.slick-next:before {height:35px; width:20px; line-height:30px; font-size:60px; color:#cccccc;}
+	}
+
+	@media (min-width:768px) {
+		#carousel {
+			h2 {padding:60px 0 30px;}
+			.slider {min-height:100px; margin-bottom:40px;}
+			.quote {padding:0 40px 0;}
+			.person {font-size:14px; margin-top:20px;}
+		}
+	}
+	@media (max-width:767px) {
+		#carousel {
+			h2 {padding:40px 0 20px;}
+			.slider {min-height:100px; margin:0 10px 10px;}
+			.quote {padding:0 15px 0;}
+			.person {font-size:14px; margin-top:20px;}
+		}
+	}
+}
+
+//Page: Classes
+.page-classes {
+
+	@media (min-width:768px) {
+
+	}
+	@media (max-width:767px) {
+
+	}
+}
+
+//Page: Health Coaching
+.page-health-coaching {
+
+	@media (min-width:768px) {
+
+	}
+	@media (max-width:767px) {
+
+	}
+}

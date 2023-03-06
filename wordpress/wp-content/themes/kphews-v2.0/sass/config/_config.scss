@@ -1,0 +1,33 @@
+// SASS: Breakpoint Sizes
+@include breakpoints((
+	bp_1024:(1024px,null),
+	bp_768:(768px,1023px),
+	bp_480:(480px,767px),
+	bp_360:(null,479px)
+));
+
+// Container Widths
+@include breakpoint('>=bp_1024'){
+	.container {width:950px;}
+}
+@include breakpoint('bp_768'){
+	.container {width:710px;}
+}
+@include breakpoint('<=bp_480'){
+	.container {width:100%; min-width:360px; overflow-x:hidden; padding-left:15px; padding-right:15px;}
+}
+
+// SASS: Colors
+$color-blue: #016ba7;
+$color-green: #00a19b;
+$color-orange: #ff9e16;
+$color-purple: #606fb1;
+$color-gray: #E6E6E6;
+$color-black: #595959;
+
+// SASS: Fonts
+$fonts: (
+  OpenSans:		#{'Open Sans',serif},
+  Montserrat: 	#{'Montserrat',Verdana,Arial,sans-serif},
+  default:		#{'Montserrat',Verdana,Arial,sans-serif}
+);

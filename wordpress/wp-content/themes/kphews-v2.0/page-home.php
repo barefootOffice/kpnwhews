@@ -1,14 +1,10 @@
 <?php /* Template Name: Home Page */ ?>
-
-<?php get_header(); ?>
+<?php get_template_part('block','header'); ?>
 <?php the_post(); ?>
 
-<body id="home" <?php body_class(); ?>>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WCN4KH" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+	<main>
 
-<?php get_header('navigation'); ?>
+		<?php /*
 		<section id="banner">
 			<div class="container">
 				<h3>Coronavirus/COVID-19</h3>
@@ -18,10 +14,11 @@
 					<li><a href="https://www.cdc.gov/coronavirus/2019-ncov/prevent-getting-sick/prevention.html" target="_blank">How to protect yourself and others</a></li>
 					<li><a href="https://healthy.kaiserpermanente.org/oregon-washington/health-wellness/coronavirus-information" target="_blank">Kaiser Permanente Northwest members: how to get care</a></li>
 				</ul>
-				
 			</div>
 		</section>
-		<section class="masthead">
+		*/ ?>
+
+		<section id="carousel">
 			<div class="slider">
 				<div class="slide slide1">&nbsp;</div>
 				<div class="slide slide2">&nbsp;</div>
@@ -31,7 +28,7 @@
 				<div class="slide slide6">&nbsp;</div>
 				<div class="slide slide7">&nbsp;</div>
 			</div>
-			
+
 			<div class="message">
 				<div class="container">
 					<h1>Good health is yours for the making</h1>
@@ -39,14 +36,14 @@
 			</div>
 		</section>
 
-		<main>		
+		<section id="blocks">
 			<div class="container">
-			
+
 				<a class="box classes" href="<?php bloginfo('url') ?>/classes/">
 					<h2 class="title">Classes</h2>
 					<img alt="Kaiser Permanente Classes" src="<?php bloginfo('template_directory') ?>/images/home-box-classes.jpg"/>
 				</a>
-				
+
 				<a class="box coaching" href="<?php bloginfo('url') ?>/health-coaching/">
 					<h2 class="title">Health Coaching</h2>
 					<img alt="Kaiser Permanente Health Coaching" src="<?php bloginfo('template_directory') ?>/images/home-box-coaching.jpg"/>
@@ -73,17 +70,19 @@
 					<li><a href="<?php bloginfo('url') ?>/wellness-topics/quitting-tobacco/">Quitting Tobacco</a></li>
 					<li><a href="<?php bloginfo('url') ?>/wellness-topics/sleep/">Sleep</a></li>
 					<li><a href="<?php bloginfo('url') ?>/wellness-topics/emotional-health/stress/">Stress</a></li>
-					<li><a href="<?php bloginfo('url') ?>/wellness-topics/healthy-weight/weight-management/">Weight Management</a></li>					
+					<li><a href="<?php bloginfo('url') ?>/wellness-topics/healthy-weight/weight-management/">Weight Management</a></li>
 					</ul>
-				</div>				
+				</div>
 
 				<div class="tagline">
 					<h3>We help people reach their health goals, by listening, supporting and guiding, so they can live their best lives.</h3>
 				</div>
-			
-			</div>	
-		</main>
-		
-<?php get_footer(); ?>
+
+			</div>
+		</section>
+
+	</main>
+
+<?php get_template_part('block','footer'); ?>
 </body>
 </html>

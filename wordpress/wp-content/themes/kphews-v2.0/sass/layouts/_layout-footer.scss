@@ -1,0 +1,74 @@
+/* Footer */
+footer .upper {background-color:#016ba7; color:#ffffff;}
+footer .upper a {color:#ffffff; text-decoration:none; display:block;}
+footer .upper a:hover {text-decoration:underline;}
+footer .upper a:hover:before {text-decoration:none!important;}
+footer .upper h3 {font-weight:bold; margin-bottom:5px;}
+footer .upper a.globe {position:relative; padding-left:20px;}
+footer .upper a.globe:before {content:""; position:absolute; left:0px; top:4px; display:block; height:16px; width:16px; background-image:url('images/icon-globe16-white.png');}
+footer .upper p.phone a {text-decoration:none!important;}
+
+footer .upper .social {display:block; width:260px; height:90px; margin-top:10px;}
+footer .upper .social li {display:block; float:left; width:50%; margin-bottom:10px;}
+footer .upper .social li a {display:block; height:34px; line-height:34px;}
+footer .upper .social li a:before {font-family:'FontAwesome'; display:inline-block; margin-right:10px; -webkit-border-radius:50%; -moz-border-radius:50%; border-radius:50%; width:34px; height:34px; line-height:34px; text-align:center; font-size:20px; background-color:#003b71;}
+footer .upper .social li a.facebook:before {content:"\f09a";}
+footer .upper .social li a.twitter:before {content:"\f099";}
+footer .upper .social li a.pinterest:before {content:"\f231";}
+footer .upper .social li a.youtube:before {content:"\f167";}
+footer .upper .social li a:hover {text-decoration:none!important;}
+footer .upper .social li a:hover:before {background-color:#1f507d;}
+
+footer .upper .flex p,
+footer .upper .flex a {font-size:13px; line-height:22px;}
+footer .upper .flex h3 {font-size:14px;}
+footer .upper .full p {font-size:12px; line-height:18px;}
+footer .upper .full p:first-of-type {margin-bottom:15px;}
+footer .copyright {background-color:#e6e6e6; color:#595959;}
+footer .copyright p {font-size:12px; line-height:16px;}
+
+html.no-flexbox footer .upper .flex {display:block;}
+html.no-flexbox footer .upper .flex > div {display:block; float:left;}
+html.no-flexbox footer .upper .full {clear:both;}
+html.ie8 footer .upper .social a:hover {text-decoration:underline!important;}
+html.ie8 footer .upper .social a:before {background:url('images/icon-social-bg.png');}
+html.ie8 footer .upper .social a:hover:before {text-decoration:underline!important;}
+html.ie8 footer .upper .full {padding-bottom:10px;}
+html.ie8 footer .upper .full p {margin-bottom:15px;}
+
+@media (min-width:1024px){
+	footer .upper .flex {margin-top:20px; padding:0 20px 0;}
+	footer .upper .flex div.col1 {width:320px;}
+	footer .upper .flex div.col2 {width:180px;}
+	footer .upper .flex div.col3 {width:220px;}
+	footer .upper .flex div.col4 {width:175px;}
+	footer .upper .full {font-size:12px; line-height:24px; padding:10px 20px 30px;}
+	footer .copyright .container {padding:10px 20px;}
+}
+@media (min-width:768px) and (max-width:1023px){
+	footer .upper .flex {margin-top:20px; padding:0px;}
+	footer .upper .flex div.col1 {width:370px;}
+	footer .upper .flex div.col2 {width:170px;}
+	footer .upper .flex div.col3 {display:none;}
+	footer .upper .flex div.col4 {width:155px;}
+	footer .upper .full {font-size:12px; line-height:24px; padding:10px 0px 30px;}
+	footer .copyright .container {padding:15px 0px;}
+}
+@media (max-width:767px) {
+	footer .upper .flex {margin-top:20px; padding:0 20px;}
+	footer .upper .full {padding:20px 20px; line-height:18px;}
+	footer .copyright .container {padding:20px;}
+}
+@media (min-width:480px) and (max-width:767px){
+	footer .upper .flex div.col1 {min-width:300px;}
+	footer .upper .flex div.col2,
+	footer .upper .flex div.col3 {display:none;}
+	footer .upper .flex div.col4 {width:140px;}
+}
+@media (max-width:479px){
+	footer .upper .flex {display:block;}
+	footer .upper .flex div.col1 {width:100%; display:block; margin-bottom:10px;}
+	footer .upper .flex div.col4 {width:100%; display:block;}
+	footer .upper .flex div.col2,
+	footer .upper .flex div.col3 {display:none;}
+}

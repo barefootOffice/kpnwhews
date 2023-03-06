@@ -32,8 +32,10 @@ function modify_robots_txt($output,$public){
 }
 
 // WordPress: Removes Content Editor from select pages
-//add_action('init', 'remove_editor');
+add_action('init', 'remove_editor');
 function remove_editor(){
+	//global $post;
+
 	// Get the Post ID.
 	if (isset($_GET['post'])){
 		$postID = $_GET['post'];
@@ -44,11 +46,28 @@ function remove_editor(){
 	// Get the Post Name
 	$post_name = get_post_field('post_name',$postID);
 
+	/*
 	// Page slugs to INCLUDE the editor/excerpt
 	$pages_to_include = array('privacy-policy');
 
 	// Removes Editor/Excerpt from select pages
 	if (!in_array($post_name,$pages_to_include)){
+		remove_post_type_support('page','editor');
+		remove_post_type_support('page','excerpt');
+	}
+	*/
+
+	// Get the Post Template file name
+	$post_template = get_page_template_slug($postID);
+
+	// Removes Editor/Excerpt from any pages using the Wellness Topic template
+	if (strpos($post_template,'wellness') > 0){
+		remove_post_type_support('page','editor');
+		remove_post_type_support('page','excerpt');
+	}
+
+	// Removes Editor/Excerpt from any pages using the Learning Module template
+	if (strpos($post_template,'learning-module') > 0){
 		remove_post_type_support('page','editor');
 		remove_post_type_support('page','excerpt');
 	}
@@ -70,5 +89,23 @@ function remove_private_prefix($title){
 	$title = str_replace('Private: ', '', $title);
 	return $title;
 }
+
+// WordPress: Disable Attachment URLs
+add_action( 'template_redirect', 'attachment_redirect', 10);
+function attachment_redirect() {
+    if(is_attachment()){
+        $url = wp_get_attachment_url( get_queried_object_id() );
+        wp_redirect( $url, 301 );
+    }
+    return;
+}
+
+// WordPress: Displays ACF Name next to label (Development)
+//add_action('acf/render_field', 'show_field_details', 1);
+function show_field_details($field) {
+	//print_r($field);
+	echo '<p>',$field['name'],' ',$field['key'],'</p>';
+}
+
 
 ?>

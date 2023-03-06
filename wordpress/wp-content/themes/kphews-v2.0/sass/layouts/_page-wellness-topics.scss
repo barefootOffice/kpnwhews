@@ -1,0 +1,182 @@
+// Page: Wellness Topic (SHARED}
+.page-wellness-listing,
+.page-wellness-topic {
+
+	//NEW Layout
+	.container.col2 {display:flex;
+		@include breakpoint('>=bp_768'){
+			& {flex-flow:row nowrap;}
+			.left,.right {width:50%;}
+		}
+		@include breakpoint('<=bp_480'){
+			& {flex-flow:column wrap;}
+			.left,.right {width:100%;}
+		}
+	}
+
+	section#rows {
+		.text {
+			h2 {position:relative; text-transform:uppercase; padding-bottom:10px; margin-bottom:10px;
+				&:before {content:''; position:absolute; bottom:0px; left:0px; display:block; width:60px; border-bottom:2px solid $color-blue; transition: width .25s;}
+			}
+			//Content styles in _global-elements under .wp-content
+		}
+	}
+}
+
+
+// Page: Wellness Topic (Listing)
+.page-wellness-listing {
+
+	//Hero
+	section#hero {
+		.headline {background-color:#00a19b;}
+		.subhead {
+			p {color:$color-black;}
+		}
+	}
+	//Rows
+	section#rows {
+		.row:nth-child(odd){background-color:$color-gray;
+			.text {order:1;}
+			.image {order:2;}
+		}
+		.row:nth-child(even) {
+			.text {order:2;}
+			.image {order:1;}
+		}
+		.text h2 {@include font-size(20px); font-weight:400; color:$color-blue;
+			&:before {border-bottom:2px solid $color-blue;}
+			&:hover {
+				&:before {width:80px;}
+				a {text-decoration:none;}
+			}
+		}
+	}
+
+	@include breakpoint('>=bp_768'){
+		section#hero{
+			.subhead {padding:60px 40px;
+				.container {max-width:920px;}
+				p {@include font-size(20px,30px);}
+			}
+		}
+		section#rows {
+			.row .column {padding:30px 15px;}
+			.text{
+				h2 {@include font-size(20px);}
+			}
+		}
+	}
+	@include breakpoint('<=bp_480'){
+		section#hero{
+			.subhead {padding:20px 10px;
+				p {@include font-size(16px,24px);}
+			}
+		}
+		section#rows {
+			.row {padding:30px 0;}
+			.text {
+				h2 {@include font-size(18px); padding-bottom:10px; margin-bottom:10px;}
+			}
+			.row {
+				.text {order:1!important; padding-bottom:30px;
+					p:not(:last-of-type){margin-bottom:5px;}
+				}
+				.image {order:2!important;
+					img {max-width:100%; height:auto; margin:0 auto;}
+				}
+			}
+		}
+	}
+
+}
+
+// Page: Wellness Topic (Single)
+.page-wellness-topic {
+	section#hero {
+		.column.left {
+			* {color:#fff;}
+		}
+		.column.right {
+			img {max-width:100%; height:auto;}
+		}
+	}
+	section#rows {
+		.text {
+			h2 {@include font-size(16px,22px); font-weight:400; padding-bottom:10px; margin-bottom:10px; color:$color-black;
+				&:before {border-bottom:2px solid $color-green;}
+			}
+			div.headline-spacer {display:block; font-size:0px; line-height:0px;}
+		}
+		.video {
+			iframe.youtube {aspect-ratio: 16 / 9; width: 100%;}
+			@supports not (aspect-ratio: 1) {
+				& {position:relative; padding-bottom: 56.25%;}
+				iframe.youtube {position:absolute; top:0; left:0; width:100%; height:100%;}
+			}
+		}
+		.row#video {background-color:$color-gray;}
+	}
+	@include breakpoint('>=bp_768'){
+		section#hero {background-color:none!important;
+			.column.right {background-color:$color-gray;}
+		}
+		section#rows {
+			.row .column {padding:30px 15px;}
+			.text div.headline-spacer {height:40px;}
+			.row#video {
+				.text {display:flex; flex-flow:column nowrap; justify-content:center;}
+			}
+		}
+	}
+	@include breakpoint('bp_1024'){
+		section#hero {
+			.column.text {padding:20px;
+				h1 {@include font-size(42px); margin-bottom:20px;}
+				p {@include font-size(20px,26px);
+					&:not(:last-of-type){margin-bottom:20px;}
+				}
+			}
+		}
+	}
+	@include breakpoint('bp_768'){
+		section#hero {
+			.column.text {padding:20px;
+				h1 {@include font-size(34px); margin-bottom:15px;}
+				p {@include font-size(16px,22px);
+					&:not(:last-of-type){margin-bottom:15px;}
+				}
+			}
+		}
+	}
+	@include breakpoint('<=bp_480'){
+		section#hero {
+			.container {padding-left:0px!important; padding-right:0px!important;}
+			.column.image {order:1;
+				img {margin:0 auto; width:100%; height:auto; max-width:480px;}
+			}
+			.column.text {order:2; padding:20px;
+				h1 {@include font-size(24px); text-align:center; margin-bottom:10px;}
+				p {@include font-size(16px,24px); text-align:center;}
+			}
+		}
+		section#rows {
+			.container {padding-left:0px!important; padding-right:0px!important;}
+			.column {padding:20px 15px;}
+			.column.text {order:1;
+				div.headline-spacer {display:none;}
+				img {margin:0 auto; width:100%; height:auto; max-width:480px;}
+				h2:before {width:100%;}
+			}
+			.column.image {order:2;
+				img {margin:0 auto; width:100%; height:auto; max-width:480px;}
+			}
+			.row#video {
+				.text {order:1;}
+				.image, .video {order:2;}
+			}
+		}
+	}
+
+}

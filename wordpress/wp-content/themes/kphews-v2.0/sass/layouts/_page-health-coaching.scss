@@ -1,0 +1,24 @@
+/* Health Coaching */
+#health-coaching .intro p {margin-bottom:20px;}
+#health-coaching .intro p:last-of-type {margin-bottom:0px;}
+
+#health-coaching h2 {color:#006ba6;}
+#health-coaching .video h2:before {border-color:#006ba6;}
+#health-coaching .coaching-contact ul {margin: 15px 0 15px 50px; color: #595959;}
+#health-coaching .coaching-contact li {font-size: 20px; list-style: disc; color: #595959; margin-bottom: 10px;}
+#health-coaching .intro .coaching-contact {padding: 0 40px 20px 40px;}
+
+#health-coaching #lower {background-color:#e6e6e6;}
+#health-coaching #lower p {text-align:center; color:#595959; font-style:italic;}
+
+@media (min-width:768px) {
+	#health-coaching h2 {font-size:20px; line-height:20px;}
+	#health-coaching #lower {padding:20px 0;}
+	#health-coaching #lower p {font-size:14px; line-height:22px;}
+}
+@media (max-width:767px) {
+	#health-coaching h2 {font-size:16px; line-height:16px;}
+	#health-coaching ul {font-size: 14px;}
+	#health-coaching #lower {padding:20px;}
+	#health-coaching #lower p {font-size:12px; line-height:18px;}
+}

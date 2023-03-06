@@ -1,0 +1,261 @@
+// SASS: Horizontal Centering
+// @include center-horizontal();
+@mixin center-horizontal(){
+	//display:block;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+// SASS: Horizontal Centering for Absolute (Must provide width)
+// @include center-horizontal-absolute(0px);
+@mixin center-horizontal-absolute($width){
+	position:absolute;
+	left:calc((100% - #{$width})/2);
+	right:auto;
+	width:$width;
+}
+
+// SASS: Vertical Centering - Outer element REQUIRES a height, not just a min-height
+// @include center-vertical();
+@mixin center-vertical(){
+	position:relative;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+// SASS: Placeholder Color
+// @include placeholderColor(#000);
+@mixin placeholderColor($color){
+	&::-webkit-input-placeholder {color:$color;}
+	&::-moz-placeholder {color:$color;}
+	&:-ms-input-placeholder {color:$color;}
+	&:-moz-placeholder {color:$color;}
+}
+
+// SASS: Font Declaration
+// @include font('fontName','Regular',12px,12px);
+@mixin font($font_name,$font_weight:null,$font_size:null,$line_height:null){
+
+	// Assigns the Font Family
+	@if (map-has-key($fonts, $font_name)) {
+		font-family:map-get($fonts, $font_name); font-style:normal;
+	} @else {
+		font-family:map-get($fonts, 'default'); font-style:normal;
+	}
+
+	// Assigns the Font Weight
+	@if ($font_weight){
+		@if (type-of($font_weight) == 'string'){
+			@if (str-index($font_weight,'Thin')){
+				font-weight:100;
+			} @else if (str-index($font_weight,'Light')){
+				font-weight:300;
+			} @else if (str-index($font_weight,'Regular')){
+				font-weight:400;
+			} 	@else if (str-index($font_weight,'Medium')){
+				font-weight:500;
+			}  @else if (str-index($font_weight,'SemiBold')){
+				font-weight:600;
+			}  @else if (str-index($font_weight,'Bold')){
+				font-weight:700;
+			}  @else if (str-index($font_weight,'Black')){
+				font-weight:900;
+			} @else {
+				font-weight:normal;
+			}
+			// Assigns the Font Style
+			@if (str-index($font_weight,'Italic')){
+				font-style:italic;
+			} @else {
+				font-style:normal;
+			}
+		} @else if (type-of($font_weight) == 'number'){
+			font-weight:$font_weight;
+		}
+	}
+
+	// Assigns the Font Size and Line Height
+
+	@if ($font_size and $line_height){
+		@include font-size($font_size,$line_height);
+	} @else if ($font_size and $line_height == null){
+		@include font-size($font_size,$font_size);
+	} @else if ($line_height and $font_size == null){
+		@include font-size(null,$line_height);
+	}
+}
+
+// SASS: Font Size Changes
+// @include font-size(12px,12px);
+@mixin font-size($font_size:null,$line_height:null){
+	@if ($font-size and $line_height){
+		font-size:$font_size;
+		line-height:$line_height;
+	} @else if ($font_size and $line_height == null){
+		font-size:$font_size;
+		line-height:$font_size;
+	} @else if ($line_height and $font_size == null){
+		line-height:$line_height;
+	}
+}
+
+// SASS: Sizing of element with background image, either default or resized proportionally based on WIDTH or manually setting WIDTH & HEIGHT
+// @include image-size($image,100px,100px);
+@mixin image-size($image,$width:null,$height:null){
+	@if ($width != null and $height == null) {
+		width:$width;
+		height:($width * map-get($image,'height')) / map-get($image,'width');
+	} @else if ($width == null and $height != null){
+		height:$height;
+		width:($height * map-get($image,'width')) / map-get($image,'height');
+	} @else if ($width != null and $height != null){
+		width:$width;
+		height:$height;
+	} @else {
+		width:map-get($image,'width');
+		height:map-get($image,'height');
+	}
+}
+
+// SASS: Sizing of element with background image as fluid 100% WIDTH
+// @include image-size-fluid($image);
+@mixin image-size-fluid($image){
+	$ratio: map-get($image,'height') / map-get($image,'width');
+	$lowerPad: ($ratio * 100%);
+	height: 0;
+   padding-bottom: $lowerPad;
+}
+
+// SASS: Background Image and styles
+// @include image-background($image,'top center','cover');
+@mixin image-background($image,$position:null,$size:null){
+	background-image:url($image-folder + map-get($image,'file'));
+	background-repeat:no-repeat;
+	@if ($position != null) {
+		@if (type-of($position) == string) {
+			$position: unquote($position)
+		}
+		background-position:$position;
+	} @else {
+		background-position:center center;
+	}
+	@if ($size != null) {
+		@if (type-of($size) == string) {
+			$size: unquote($size)
+		}
+		background-size:$size;
+	} @else {
+		background-size:100% 100%;
+	}
+}
+
+// SASS: Proportional Background Sizing of an Image
+// @include image-background-size($image,100px,100px);
+@mixin image-background-size($image,$width:null,$height:null){
+	@if ($width != null and $height == null) {
+		background-size:$width ($width * map-get($image,'height')) / map-get($image,'width');
+	} @else if ($width == null and $height != null){
+		background-size:($height * map-get($image,'width')) / map-get($image,'height') $height;
+	} @else if ($width != null and $height != null){
+		background-size:$width $height;
+	} @else {
+		background-size:map-get($image,'width') map-get($image,'height');
+	}
+}
+
+// SASS: Background Image file only
+// @include image-background-file($image);
+@mixin image-background-file($image){
+	background-image:url($image-folder + map-get($image,'file'));
+}
+
+// SASS: Background styles only
+// @include image-background-style('top center','cover');
+@mixin image-background-style($position:null,$size:null){
+	background-repeat:no-repeat;
+	@if ($position != null) {
+		@if (type-of($position) == string) {
+			$position: unquote($position)
+		}
+		background-position:$position;
+	} @else {
+		background-position:center center;
+	}
+	@if ($size != null) {
+		@if (type-of($size) == string) {
+			$size: unquote($size)
+		}
+		background-position:$size;
+	} @else {
+		background-size:100% 100%;
+	}
+}
+
+// SASS: Button Size with Text Size
+// @include button(100px,40px,12px);
+// @include button(auto,40px,12px,10px);
+@mixin button($width, $height, $font_size, $padding:null){
+	height:$height;
+	@if $width == auto {
+		width:auto; display:table; position:relative;
+		& > span {display:inline-block; position:relative; text-align:center;
+			@include font-size($font_size);
+			top:calc((#{$height} - #{$font_size}) / 2);
+			@if $padding {
+				padding:0 $padding;
+			}
+		}
+	} @else {
+		width:$width; display:flex; flex-flow:column wrap; justify-content:center; align-items:center;
+		& > span {display:block; width:100%; text-align:center;
+			@include font-size($font_size);
+		}
+	}
+}
+
+// SASS: Split Background
+// @include splitBG(#afafaf,#f9f9f9);
+@mixin splitBG($leftBG,$rightBG){
+	& {position:relative; z-index:1;}
+	&:before,&:after {content:""; display:block; width:50%; position:absolute; top:0px; bottom:0px; z-index:-1;}
+	&:before {left:0px; background-color:$leftBG;}
+	&:after {right:0px; background-color:$rightBG;}
+
+	@include breakpoint('<=bp_768'){
+		&:before,
+		&:after {display:none;}
+	}
+}
+
+// SASS: Triangle (direction: up,down,left,right)
+// @include triangle('down',10px,10px,#929292);
+@mixin triangle($direction,$width,$height,$color){
+	width:0;
+	height:0;
+
+	@if ($direction == 'down'){
+		border-left:$width solid transparent;
+		border-right:$width solid transparent;
+		border-top:$height solid $color;
+	} 	@else if ($direction == 'up'){
+		border-left:$width solid transparent;
+		border-right:$width solid transparent;
+		border-bottom:$height solid $color;
+	} 	@else if ($direction == 'left'){
+		border-top:$height solid transparent;
+		border-bottom:$height solid transparent;
+		border-right:$width solid $color;
+	} @else if ($direction == 'right'){
+		border-top:$height solid transparent;
+		border-bottom:$height solid transparent;
+		border-left:$width solid $color;
+	}
+}
+
+// SASS: Hover ONLY for non-touch
+// @include on-hover {}
+@mixin on-hover(){
+  html:not(.touch) &:hover {
+    @content;
+  }
+}

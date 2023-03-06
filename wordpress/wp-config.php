@@ -64,6 +64,17 @@ define( 'DB_CHARSET', getenv_docker('WORDPRESS_DB_CHARSET', 'utf8') );
 /** The database collate type. Don't change this if in doubt. */
 define( 'DB_COLLATE', getenv_docker('WORDPRESS_DB_COLLATE', '') );
 
+/* Settings for Post Revisions and Autosave */
+define('AUTOSAVE_INTERVAL', 900 ); // seconds
+define('WP_POST_REVISIONS', false);
+
+/* Prevents Code Editing within WordPress */
+define('DISALLOW_FILE_EDIT', true);
+
+/* Plugin: SEO Framework - Allows the Editor role access to SEO Framework settings */
+define( 'THE_SEO_FRAMEWORK_SETTINGS_CAP', 'edit_pages' );
+
+
 /**#@+
  * Authentication unique keys and salts.
  *
@@ -107,7 +118,17 @@ $table_prefix = getenv_docker('WORDPRESS_TABLE_PREFIX', 'wp_');
  *
  * @link https://wordpress.org/support/article/debugging-in-wordpress/
  */
-define( 'WP_DEBUG', !!getenv_docker('WORDPRESS_DEBUG', '') );
+define('WP_DEBUG', false );
+if (defined('WP_DEBUG') && WP_DEBUG === true){
+	/* DEV ONLY: Wordpress Cache */
+	define('WP_CACHE', false);
+
+	/* DEV ONLY: WordPress Debugging */
+	define('WP_DEBUG', true);
+	define('WP_DEBUG_LOG', true);
+	define('WP_DEBUG_DISPLAY', true);
+	@ini_set('display_errors', E_ALL);
+}
 
 /* Add any custom values between this line and the "stop editing" line. */
 
